@@ -61,6 +61,7 @@ export default function App() {
     }
   };
 
+  // Search item method implementation
   const filterBySearch = (event) => {
     // Access input value
     const query = event.target.value;
