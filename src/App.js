@@ -19,6 +19,9 @@ export default function App() {
     { id: 510, listId: 2, name: null },
   ];
   const [d, setD] = useState(true); /** For Order change */
+  const [filteredList, setFilteredList] = new useState(
+    data
+  ); /** For filterd  */
   const [messageButton, SetMessageButton] =
     useState('Assending'); /** For Button message change  */
 
@@ -57,6 +60,24 @@ export default function App() {
       setD(true);
     }
   };
+
+  const filterBySearch = (event) => {
+    // Access input value
+    const query = event.target.value;
+    console.log('query', query);
+    // Create copy of item list
+    var updatedList = [...data];
+    // Include all elements which includes the search query
+    updatedList = updatedList.filter((item) => {
+      console.log('item', item);
+      if (item.name !== null) {
+        return item.name.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+      }
+    });
+    // Trigger render with updated values
+    setFilteredList(updatedList);
+  };
+
   return (
     <div>
       <h1>Filtering the Data</h1>
@@ -66,6 +87,19 @@ export default function App() {
       {sorted.map((item) => (
         <h3>{item.name}</h3>
       ))}
+      {/* Search string */}
+      <div className="search-header">
+        <div className="search-text">Search:</div>
+        <input id="search-box" onChange={filterBySearch} />
+      </div>
+      <div id="item-list">
+        <ol>
+          {filteredList.map((item, index) => (
+            <li key={index}>{item.name}</li>
+          ))}
+        </ol>
+      </div>
+      {/* Search string code end */}
     </div>
   );
 }
